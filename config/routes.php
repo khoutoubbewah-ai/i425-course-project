@@ -4,6 +4,14 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
 
+use RestaurantAPI\Authentication\{
+    MyAuthenticator,
+    BasicAuthenticator,
+    BearerAuthenticator,
+    JWTAuthenticator
+
+};
+
 return function (App $app) {
 
     $app->get('/', function (Request $request, Response $response, array $args) {
@@ -50,8 +58,30 @@ return function (App $app) {
             $group->get('/{location_id}/amenities', 'Locations:viewAmenities');
         });
 
+        //}); //No auth
+        //})->add(new MyAuthenticator()); //MyAuthentication
+        //})->add(new BasicAuthenticator()); // BasicAuthentication
+        //})->add(new BearerAuthenticator()); // BearerAuthentication
+        })->add(new JWTAuthenticator()); // JWTAuthentication
+
+
+    // User route group
+    $app->group('/api/v1/users', function (RouteCollectorProxy $group) {
+        $group->get('', 'User:index');
+        $group->get('/oauth2', 'User:oauth2');
+        $group->get('/{id}', 'User:view');
+        $group->post('', 'User:create');
+        $group->put('/{id}', 'User:update');
+        $group->delete('/{id}', 'User:delete');
+        $group->post('/authBearer', 'User:authBearer');
+
+        // Route for JWT authentication
+        $group->post('/authJWT', 'User:authJWT');
+
+
     });
 
+    //handle invalid routes
     $app->any('/{route:.*}', function (Request $request, Response $response) {
         $response->getBody()->write("Page Not Found");
         return $response->withStatus(404);

@@ -179,7 +179,13 @@
           "name": "Get all Amenities",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "RestaurantAPI-Authorization",
+                "value": "UserTwo:UserTwoPassword",
+                "type": "text"
+              }
+            ],
             "url": {
               "raw": "{{base_url}}/amenities",
               "host": [
@@ -236,7 +242,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n            \"amenity_name\": \"Playground\",\r\n            \"description\": \"Playground for public use\",\r\n            \"icon_name\": \"Playground\"\r\n        }",
+              "raw": "{\r\n            \"amenity_name\": \"Public Restroom\",\r\n            \"description\": \"Restrooms for public use\",\r\n            \"icon_name\": \"Public Restroom\"\r\n        }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -262,7 +268,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "        {\r\n            \"amenity_name\": \"Public Playground\",\r\n            \"description\": \"Playground for public use\",\r\n            \"icon_name\": \"Playground\"\r\n        }",
+              "raw": "        {\r\n            \"amenity_name\": \"Public Playground\",\r\n            \"description\": \"Playground for the public\",\r\n            \"icon_name\": \"Playground\"\r\n        }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -270,13 +276,13 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/amenities/7",
+              "raw": "{{base_url}}/amenities/8",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "amenities",
-                "7"
+                "8"
               ]
             }
           },
@@ -288,13 +294,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/amenities/6",
+              "raw": "{{base_url}}/amenities/8",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "amenities",
-                "6"
+                "8"
               ]
             }
           },
@@ -309,7 +315,7 @@
           "name": "Search for a menu category",
           "item": [
             {
-              "name": "New Request",
+              "name": "Search for a menu category",
               "protocolProfileBehavior": {
                 "disableBodyPruning": true
               },
@@ -382,7 +388,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n            \"category_name\": \"Sauces\",\r\n            \"description\": \"Extra sauce packets\"\r\n        }",
+              "raw": "{\r\n            \"category_name\": \"Sauces\",\r\n            \"description\": \"Lots of sauce packets\"\r\n        }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -408,7 +414,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "        {\r\n            \"category_name\": \"Sauces\",\r\n            \"description\": \"Extra sauce packets for food\"\r\n        }",
+              "raw": "        {\r\n            \"category_name\": \"Sauces\",\r\n            \"description\": \"Lots of Extra sauce packets for food\"\r\n        }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -416,13 +422,35 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/menu_categories/6",
+              "raw": "{{base_url}}/menu_categories/8",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "menu_categories",
-                "6"
+                "8"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a Menu Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/menu_categories/8",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu_categories",
+                "8"
               ]
             }
           },
@@ -490,6 +518,189 @@
       ]
     },
     {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create a User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"name\": \"User3\",\r\n \"email\": \"User3@iu.edu\",\r\n \"username\": \"UserThree\",\r\n\"password\": \"UserThreePassword\",\r\n\"role\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "View User by ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"name\": \"User2\",\r\n \"email\": \"User2@iu.edu\",\r\n \"username\": \"UserTwo\",\r\n\"password\": \"UserTwoPassword\",\r\n\"role\": 1\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "View all Users",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"name\": \"User2\",\r\n \"email\": \"User2@iu.edu\",\r\n \"username\": \"UserTwo\",\r\n\"password\": \"UserTwoPassword\",\r\n\"role\": 1\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update a User",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"User4\",\r\n    \"email\": \"User4@iu.edu\",\r\n    \"username\": \"UserFour\",\r\n    \"password\": \"UserFourPassword\",\r\n    \"role\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"User4\",\r\n    \"email\": \"User4@iu.edu\",\r\n    \"username\": \"UserFour\",\r\n    \"password\": \"UserFourPassword\",\r\n    \"role\": 1\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login and Get Bearer token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"username\": \"UserTwo\",\r\n \"password\": \"UserTwoPassword\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/authBearer",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "authBearer"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login and get JWT Token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"username\": \"UserTwo\",\r\n \"password\": \"UserTwoPassword\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/authJWT",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "authJWT"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Welcome Message",
       "request": {
         "method": "GET",
@@ -504,6 +715,16 @@
       "response": []
     }
   ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJSZXN0YXVyYW50QVBJLWFwaS5jb20iLCJleHAiOjE3ODE1NjIyNjksImlzYSI6MTc4MTU1ODY2OSwiZGF0YSI6eyJ1aWQiOjIsIm5hbWUiOiJVc2VyMiIsImVtYWlsIjoiVXNlcjJAaXUuZWR1Iiwicm9sZSI6MX19.GwrpCqdbatQ4iVZktGM0HsdBFsaDIQsQwhGjvsUAnOM",
+        "type": "string"
+      }
+    ]
+  },
   "event": [
     {
       "listen": "prerequest",

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2026 at 04:19 PM
+-- Generation Time: Jun 15, 2026 at 11:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,9 @@ INSERT INTO `amenities` (`amenity_id`, `amenity_name`, `description`, `icon_name
 (2, 'WiFi', 'Location provides guest wireless internet access.', 'wifi'),
 (3, 'Outdoor Seating', 'Location has outdoor tables or patio seating.', 'outdoor-seating'),
 (4, 'Curbside Pickup', 'Location supports curbside pickup orders.', 'curbside-pickup'),
-(5, 'Delivery', 'Location supports delivery through approved services.', 'delivery');
+(5, 'Delivery', 'Location supports delivery through approved services.', 'delivery'),
+(9, 'Playgrounds', 'Playground for public use', 'Playground'),
+(10, 'Public Restroom', 'Restrooms for public use', 'Public Restroom');
 
 -- --------------------------------------------------------
 
@@ -160,7 +162,9 @@ INSERT INTO `menu_categories` (`category_id`, `category_name`, `description`) VA
 (2, 'Entrees', 'Main meals and featured dishes.'),
 (3, 'Sides', 'Side items and add-ons.'),
 (4, 'Drinks', 'Cold and hot beverages.'),
-(5, 'Desserts', 'Sweet items served after a meal.');
+(5, 'Desserts', 'Sweet items served after a meal.'),
+(6, 'Sauces', 'Extra sauce packets for food'),
+(7, 'Sauces', 'Extra sauce packets');
 
 -- --------------------------------------------------------
 
@@ -221,6 +225,74 @@ INSERT INTO `restaurant_chains` (`chain_id`, `chain_name`, `website_url`, `phone
 (4, 'Circle City Tacos', 'https://www.circlecitytacos.example', '317-555-0104', 'Fast casual taco restaurant with bowls, tacos, and chips.'),
 (5, 'Hoosier BBQ House', 'https://www.hoosierbbq.example', '317-555-0105', 'Barbecue restaurant serving smoked meats and comfort sides.');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` tinyint(4) NOT NULL,
+  `role` varchar(25) NOT NULL,
+  `description` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `role`, `description`) VALUES
+(1, 'System administrator', 'A system administrator has permissions to manage users and contents of the website.'),
+(2, 'User manager', ' A user manager has permission to manage user accounts.'),
+(3, 'Advanced user', 'In addition to the permission granted to the basic user role, an advanced user also has access to the search feature.'),
+(4, 'Basic user', 'A basic user has access to the shopping cart feature.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tokens`
+--
+
+CREATE TABLE `tokens` (
+  `id` int(11) NOT NULL,
+  `user` int(11) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `tokens`
+--
+
+INSERT INTO `tokens` (`id`, `user`, `value`, `created_at`, `updated_at`) VALUES
+(1, 2, 'c83bc2feddf98892cfec328544444a1537cb19f57cbf45868592532bb38d31cc14da840fece249e71a3a9d6a1eb654dbe6582e78329e0e18b48f3c30e2370c35', '2026-06-15 21:19:51', '2026-06-15 21:19:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` tinyint(4) DEFAULT 4,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `role`, `created_at`, `updated_at`) VALUES
+(2, 'User2', 'User2@iu.edu', 'UserTwo', '$2y$10$FG/blzIIpcjIdIV98AXPW.GtRPBnjCZRmdHsJpZzqAicXyPXwUIs6', 1, '2026-06-15 20:59:05', '2026-06-15 20:59:05'),
+(3, 'User3', 'User3@iu.edu', 'UserThree', '$2y$10$7pvpy//eZzjC0lu3T6Sl0u/0ut7.Uj9DKQmZ44yO/flFX7H2Du0kK', 1, '2026-06-15 21:01:30', '2026-06-15 21:01:30');
+
 --
 -- Indexes for dumped tables
 --
@@ -272,6 +344,27 @@ ALTER TABLE `restaurant_chains`
   ADD PRIMARY KEY (`chain_id`);
 
 --
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tokens`
+--
+ALTER TABLE `tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_username_uindex` (`username`),
+  ADD KEY `fk_role_id` (`role`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -279,7 +372,7 @@ ALTER TABLE `restaurant_chains`
 -- AUTO_INCREMENT for table `amenities`
 --
 ALTER TABLE `amenities`
-  MODIFY `amenity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `amenity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `business_hours`
@@ -297,7 +390,7 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT for table `menu_categories`
 --
 ALTER TABLE `menu_categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `menu_items`
@@ -310,6 +403,18 @@ ALTER TABLE `menu_items`
 --
 ALTER TABLE `restaurant_chains`
   MODIFY `chain_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tokens`
+--
+ALTER TABLE `tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -339,6 +444,18 @@ ALTER TABLE `location_amenities`
 --
 ALTER TABLE `menu_items`
   ADD CONSTRAINT `fk_menu_items_category` FOREIGN KEY (`category_id`) REFERENCES `menu_categories` (`category_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tokens`
+--
+ALTER TABLE `tokens`
+  ADD CONSTRAINT `tokens_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `fk_role_id` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -4,6 +4,7 @@ use RestaurantAPI\Controllers\RestaurantChainController;
 use RestaurantAPI\Controllers\MenuCategoryController;
 use RestaurantAPI\Controllers\AmenityController;
 use RestaurantAPI\Controllers\LocationsController;
+use RestaurantAPI\Controllers\UserController;
 
 return function(Container $container) {
 
@@ -21,5 +22,10 @@ return function(Container $container) {
 
     $container->set('Locations', function() {
         return new LocationsController();
+    });
+
+    // Set a dependency called "User"
+    $container->set('User', function() {
+        return new UserController();
     });
 };
